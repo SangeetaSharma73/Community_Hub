@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getData } from "../../services/httpMethods";
-import { getUserFeedEndpoint } from "../../utils/endpoint";
+import { BASE_URL, getUserFeedEndpoint } from "../../utils/endpoint";
 import PostCard from "../../components/PostCard";
 import PostSkeleton from "../../components/react-skeleton/PostCardSkeleton";
 
@@ -27,7 +27,7 @@ function UserFeed({ refetchTrigger }) {
 
   const onUserLike = async (postId, postType) => {
     try {
-      await axios.post(`http://localhost:8000/api/feed/${postId}/like`, {
+      await axios.post(`${BASE_URL}/api/feed/${postId}/like`, {
         postType,
       });
       getUserFeeds();
@@ -38,7 +38,7 @@ function UserFeed({ refetchTrigger }) {
 
   const onUserDislike = async (postId, postType) => {
     try {
-      await axios.post(`http://localhost:8000/api/feed/${postId}/unlike`, {
+      await axios.post(`${BASE_URL}/api/feed/${postId}/unlike`, {
         postType,
       });
       getUserFeeds();

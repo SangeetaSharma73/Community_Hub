@@ -119,7 +119,7 @@ const Navbar = () => {
                   <img
                     src={
                       userDetails.avatar
-                        ? `http://localhost:8000${userDetails.avatar}`
+                        ? `${BASE_URL}${userDetails.avatar}`
                         : "/default-avatar.png"
                     }
                     alt="avatar"
