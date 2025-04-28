@@ -31,4 +31,8 @@ app.use("/api/offers", offerRoutes);
 app.use("/api/feed", feedRoutes);
 app.use("/api/comments", commentRoutes);
 
+app.get("/hi", (req, res) => {
+  res.send("API is running...");
+});
+
 module.exports = app;
