@@ -1,4 +1,4 @@
-export const BASE_URL = "https://community-hub-i6v4.onrender.com";
+export const BASE_URL = "https://community-hub-ij14.onrender.com";
 
 export const USER_LOGIN_API = "/api/auth/login";
 
@@ -15,7 +15,7 @@ export const offerHelpEndpoint = "/api/offers";
 export const requestHelpEndpoint = "/api/requests";
 
 export const forgetPassword =
-  "https://community-hub-i6v4.onrender.com/api/auth/forgot-password";
+  "https://community-hub-ij14.onrender.com/api/auth/forgot-password";
 
 export const userLogin = "/api/auth/login";
 
