@@ -13,15 +13,15 @@ const path = require("path");
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // Middlewares
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5170", // Replace with your frontend URL
-//     credentials: true, // Allow cookies
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://community-hub-hazel.vercel.app/", // Replace with your frontend URL
+    credentials: true, // Allow cookies
+  })
+);
 
 // Routes (you can add route files here)
 app.use("/api/auth", authRoutes);
