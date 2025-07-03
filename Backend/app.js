@@ -26,12 +26,15 @@ app.use(express.json());
 // );
 
 //deploy
-app.use(
-  cors({
-    origin: "https://community-hub-hazel.vercel.app", // Replace with your frontend URL
-    credentials: true, // Allow cookies
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://community-hub-hazel.vercel.app", // Replace with your frontend URL
+//     credentials: true, // Allow cookies
+//   })
+// );
+
+app.use(cors()); // Allow all origins
+app.options("*", cors());
 
 // Routes (you can add route files here)
 app.use("/api/auth", authRoutes);
