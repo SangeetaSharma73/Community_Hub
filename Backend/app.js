@@ -10,12 +10,22 @@ const commentRoutes = require("./routes/commentRoutes");
 const app = express();
 const path = require("path");
 
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middlewares
-// app.use(cors());
+
 app.use(express.json());
 
+// CORS configuration
+//local
+// app.use(
+//   cors({
+//     origin: "http://localhost:5170", // your frontend's origin
+//     credentials: true, // allow credentials like cookies or auth headers
+//   })
+// );
+
+//deploy
 app.use(
   cors({
     origin: "https://community-hub-hazel.vercel.app", // Replace with your frontend URL

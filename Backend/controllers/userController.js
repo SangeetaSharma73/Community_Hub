@@ -29,27 +29,14 @@ exports.getMyProfile = async (req, res) => {
   }
 };
 
-// Update logged-in user's profile
 // exports.updateMyProfile = async (req, res) => {
 //   try {
-//     const updates = req.body;
-//     delete updates.password; // Password updates should be handled separately
-
-//     const updatedUser = await User.findByIdAndUpdate(req.user._id, updates, {
-//       new: true,
-//       runValidators: true,
-//     }).select("-password -resetToken -resetTokenExpiry");
-
-//     res.json(updatedUser);
-//   } catch (err) {
-//     res.status(400).json({ msg: "Error updating profile" });
-//   }
-// };
-// exports.updateMyProfile = async (req, res) => {
-//   try {
-//     const updates = req.body;
+//     const updates = {
+//       username: req.body.username,
+//     };
 
 //     if (req.file) {
+//       console.log("image", req.file);
 //       updates.avatar = `/uploads/${req.file.filename}`;
 //     }
 
@@ -65,14 +52,28 @@ exports.getMyProfile = async (req, res) => {
 //   }
 // };
 
+const bcrypt = require("bcryptjs");
+
 exports.updateMyProfile = async (req, res) => {
   try {
     const updates = {
       username: req.body.username,
+      name: req.body.name,
+      contactInfo: {
+        phone: req.body.phone,
+        address: req.body.address,
+      },
     };
 
+    // Handle avatar upload if present
     if (req.file) {
       updates.avatar = `/uploads/${req.file.filename}`;
+    }
+
+    // Handle password update
+    if (req.body.password && req.body.password.trim() !== "") {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      updates.password = hashedPassword;
     }
 
     const updatedUser = await User.findByIdAndUpdate(req.user._id, updates, {
@@ -82,7 +83,7 @@ exports.updateMyProfile = async (req, res) => {
 
     res.json(updatedUser);
   } catch (err) {
-    console.log(err);
+    console.error("Update profile error:", err);
     res.status(400).json({ msg: "Error updating profile" });
   }
 };

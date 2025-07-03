@@ -87,3 +87,35 @@ exports.getMyRequests = async (req, res) => {
     res.status(500).json({ msg: "Error fetching your help requests" });
   }
 };
+
+// Find Nearby Help Requests
+exports.getNearbyRequests = async (req, res) => {
+  const { lng, lat, maxDistance = 5000, type } = req.query;
+
+  if (!lng || !lat) {
+    res.status(400).json({ msg: "Coordinates are required" });
+  }
+
+  const query = {
+    location: {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [parseFloat(lng), parseFloat(lat)],
+        },
+        $maxDistance: parseInt(maxDistance),
+      },
+    },
+  };
+
+  if (type) query.type = type;
+  try {
+    const nearbyRequests = await HelpRequest.find(query).populate(
+      "userId",
+      "name email"
+    );
+    res.json(nearbyRequests);
+  } catch (err) {
+    res.status(500).json({ msg: "Failed to fetch nearby help requests" });
+  }
+};

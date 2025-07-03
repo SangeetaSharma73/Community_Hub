@@ -86,3 +86,36 @@ exports.getMyOffers = async (req, res) => {
     res.status(500).json({ msg: "Error fetching your help offers" });
   }
 };
+
+// Find Nearby Help Offers
+exports.getNearbyOffers = async (req, res) => {
+  const { lng, lat, maxDistance = 5000, type } = req.query;
+
+  if (!lng || !lat) {
+    return res.status(400).json({ msg: "Coordinates are required" });
+  }
+
+  const query = {
+    location: {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [parseFloat(lng), parseFloat(lat)],
+        },
+        $maxDistance: parseInt(maxDistance),
+      },
+    },
+  };
+
+  if (type) query.type = type;
+
+  try {
+    const nearbyOffers = await HelpOffer.find(query).populate(
+      "userId",
+      "name email"
+    );
+    res.json(nearbyOffers);
+  } catch (err) {
+    res.status(500).json({ msg: "Failed to fetch nearby help offers" });
+  }
+};
