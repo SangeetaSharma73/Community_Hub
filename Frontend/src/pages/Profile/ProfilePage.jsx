@@ -8,6 +8,7 @@ import {
   requestHelpEndpoint,
 } from "../../utils/endpoint";
 import UserFeedPosts from "../../components/UserFeedPosts";
+import Navbar from "../../components/NavBar";
 
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
@@ -75,9 +76,7 @@ const ProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    if (userDetails?._id) {
-      fetchUserFeeds();
-    }
+    fetchUserFeeds();
   }, [userDetails?._id]);
 
   if (loading)
@@ -93,79 +92,101 @@ const ProfilePage = () => {
         {errorMessage}
       </div>
     );
-
   return (
-    <div className="max-w-lg mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
-      <div className="flex flex-col items-center">
-        <img
-          src={
-            userDetails?.avatar
-              ? `${BASE_URL}${userDetails.avatar}`
-              : "/default-avatar.png"
-          }
-          onError={(e) => (e.target.src = "/default-avatar.png")}
-          alt="avatar"
-          className="w-24 h-24 rounded-full object-cover"
-        />
-        <h2 className="text-2xl font-bold mt-4">{userDetails?.username}</h2>
-        <p className="text-gray-600">{userDetails?.email}</p>
+    <>
+      <div>
+        <Navbar />
       </div>
-
-      <div className="mt-6">
-        <h3 className="text-lg font-semibold">Your Posts</h3>
-        <button
-          onClick={fetchUserFeeds}
-          className="text-blue-500 text-sm mt-1 hover:underline"
-        >
-          Refresh Posts
-        </button>
-
-        {isLoadingFeed && (
-          <div className="text-center mt-4">Loading posts...</div>
-        )}
-
-        {feedError && (
-          <div className="text-red-600 mt-4 text-center">{feedError}</div>
-        )}
-
-        {!isLoadingFeed && !feedError && (
-          <UserFeedPosts
-            posts={userPosts}
-            refreshPosts={fetchUserFeeds}
-            onEdit={(post) => {
-              setEditingPost(post);
-              setEditedDescription(post.description);
+      <div className="max-w-2xl mx-auto mt-10 bg-gradient-to-br from-white via-blue-50 to-purple-50 p-8 rounded-2xl shadow-lg">
+        {/* Profile Section */}
+        <div className="flex flex-col items-center text-center">
+          <img
+            src={
+              userDetails?.avatar
+                ? `${BASE_URL}${userDetails?.avatar}`
+                : "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+            }
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/default-avatar.png";
             }}
+            alt="avatar"
+            className="w-28 h-28 rounded-full object-cover border-4 border-indigo-500 shadow-md"
           />
-        )}
-      </div>
+          <h2 className="text-2xl font-bold mt-4 text-indigo-700">
+            {userDetails?.username}
+          </h2>
+          <p className="text-gray-600">{userDetails?.email}</p>
+        </div>
 
-      {editingPost && (
-        <div className="mt-6 border-t pt-4">
-          <h3 className="text-md font-semibold mb-2">Edit Post</h3>
-          <textarea
-            value={editedDescription}
-            onChange={(e) => setEditedDescription(e.target.value)}
-            className="w-full border p-2 rounded text-sm"
-            rows={3}
-          />
-          <div className="flex justify-end mt-2 gap-2">
+        {/* Posts Section */}
+        <div className="mt-8">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-gray-800">Your Posts</h3>
             <button
-              onClick={() => setEditingPost(null)}
-              className="px-3 py-1 text-sm bg-gray-300 rounded"
+              onClick={fetchUserFeeds}
+              className="text-sm text-blue-600 hover:underline"
             >
-              Cancel
-            </button>
-            <button
-              onClick={handleUpdatePost}
-              className="px-3 py-1 text-sm bg-blue-500 text-white rounded"
-            >
-              Update
+              🔄 Refresh
             </button>
           </div>
+
+          {isLoadingFeed && (
+            <div className="text-center mt-4 text-sm text-gray-500">
+              Loading posts...
+            </div>
+          )}
+
+          {feedError && (
+            <div className="text-red-600 mt-4 text-center text-sm">
+              {feedError}
+            </div>
+          )}
+
+          {!isLoadingFeed && !feedError && (
+            <div className="mt-4">
+              <UserFeedPosts
+                posts={userPosts}
+                refreshPosts={fetchUserFeeds}
+                onEditProp={(post) => {
+                  setEditingPost(post);
+                  setEditedDescription(post.description);
+                }}
+              />
+            </div>
+          )}
         </div>
-      )}
-    </div>
+
+        {/* Edit Post Section */}
+        {editingPost && (
+          <div className="mt-8 border-t border-gray-300 pt-6">
+            <h3 className="text-md font-semibold mb-2 text-gray-800">
+              ✏️ Edit Post
+            </h3>
+            <textarea
+              value={editedDescription}
+              onChange={(e) => setEditedDescription(e.target.value)}
+              className="w-full border border-indigo-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              rows={3}
+            />
+            <div className="flex justify-end mt-3 gap-2">
+              <button
+                onClick={() => setEditingPost(null)}
+                className="px-4 py-1.5 text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdatePost}
+                className="px-4 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-md"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

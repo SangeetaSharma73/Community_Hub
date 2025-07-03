@@ -1,14 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
-import { forgetPassword } from "../../utils/endpoint"; // Assuming forgetPassword is the API URL
+import { forgetPassword } from "../../utils/endpoint"; // Make sure this imports from the correct location
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
     setMessage(""); // Reset the message before making the request
+    setErrorMessage(""); // Reset error message
 
     try {
       const response = await axios.post(forgetPassword, { email });
@@ -19,11 +21,11 @@ const ForgotPassword = () => {
         setMessage("Reset link sent! Check your email.");
       }
     } catch (error) {
-      // Handle errors
+      console.error(error);
       if (error.response && error.response.data) {
-        setMessage(error.response.data.message || "Something went wrong");
+        setErrorMessage(error.response.data.message || "Something went wrong");
       } else {
-        setMessage("Something went wrong");
+        setErrorMessage("Something went wrong");
       }
     }
   };
@@ -47,6 +49,9 @@ const ForgotPassword = () => {
 
         {message && (
           <p className="text-center mt-4 text-green-600">{message}</p>
+        )}
+        {errorMessage && (
+          <p className="text-center mt-4 text-red-600">{errorMessage}</p>
         )}
       </div>
     </div>
