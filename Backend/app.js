@@ -28,7 +28,7 @@ app.use(express.json());
 //deploy
 app.use(
   cors({
-    origin: "https://community-hub-hazel.vercel.app", // Replace with your frontend URL
+    origin: "https://community-265zpliv2-sangeetasharma73s-projects.vercel.app", // Replace with your frontend URL
     credentials: true, // Allow cookies
   })
 );
