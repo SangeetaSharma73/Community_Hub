@@ -34,7 +34,6 @@ app.use(express.json());
 // );
 
 app.use(cors()); // Allow all origins
-app.options("*", cors());
 
 // Routes (you can add route files here)
 app.use("/api/auth", authRoutes);
