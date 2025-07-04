@@ -1,4 +1,4 @@
-export const BASE_URL = "https://community-hub-ij14.onrender.com";
+export const BASE_URL = "https://community-hub-hazel.vercel.app";
 
 // Use the correct BASE_URL for development or production
 // export const BASE_URL = "http://localhost:8000"; // Use localhost for local development or the production URL if deployed
