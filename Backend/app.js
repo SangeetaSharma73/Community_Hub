@@ -24,7 +24,7 @@ app.use(express.json());
 //     credentials: true, // allow credentials like cookies or auth headers
 //   })
 // );
-
+app.use(cors());
 //deploy
 // app.use(
 //   cors({
@@ -32,8 +32,6 @@ app.use(express.json());
 //     credentials: true, // Allow cookies
 //   })
 // );
-
-app.use(cors()); // Allow all origins
 
 // Routes (you can add route files here)
 app.use("/api/auth", authRoutes);
