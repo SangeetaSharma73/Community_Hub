@@ -1,7 +1,7 @@
-export const BASE_URL = "https://community-hub-cl2g.onrender.com/";
+// export const BASE_URL = "https://community-hub-cl2g.onrender.com";
 
 // Use the correct BASE_URL for development or production
-// export const BASE_URL = "http://localhost:8000"; // Use localhost for local development or the production URL if deployed
+export const BASE_URL = "http://localhost:8000"; // Use localhost for local development or the production URL if deployed
 
 export const USER_LOGIN_API = "/api/auth/login";
 export const USER_SIGNUP = "/api/auth/register";
