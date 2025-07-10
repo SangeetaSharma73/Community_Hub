@@ -15,7 +15,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Middlewares
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 // CORS configuration
 //local
@@ -26,12 +26,12 @@ app.use(cors());
 //   })
 // );
 //deploy
-// app.use(
-//   cors({
-//     origin: "https://community-hub-hazel.vercel.app", // Replace with your frontend URL
-//     credentials: true, // Allow cookies
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://community-hub-hazel.vercel.app", // Replace with your frontend URL
+    credentials: true, // Allow cookies
+  })
+);
 
 // Routes (you can add route files here)
 app.use("/api/auth", authRoutes);
