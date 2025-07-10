@@ -15,6 +15,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Middlewares
 
 app.use(express.json());
+app.use(cors());
 
 // CORS configuration
 //local
@@ -24,7 +25,6 @@ app.use(express.json());
 //     credentials: true, // allow credentials like cookies or auth headers
 //   })
 // );
-app.use(cors());
 //deploy
 // app.use(
 //   cors({
